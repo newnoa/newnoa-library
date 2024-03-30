@@ -1,0 +1,185 @@
+plugins {
+    id "java"
+    id "version-catalog"
+    id "maven-publish"
+}
+
+group "com.newnoa"
+version "0.0.2"
+
+repositories {
+    maven {
+        url "http://nexus3.newnoa.com/repository/newnoa/"
+        allowInsecureProtocol true
+    }
+    mavenCentral()
+    gradlePluginPortal()
+    google()
+}
+
+dependencies {}
+
+catalog {
+    versionCatalog {
+        VersionCatalogBuilder
+        version("spring_boot_version", "3.2.4")
+        version("spring_cloud_version", "4.1.0")
+        version("spring_cloud_dependencies_version", "2023.0.0")
+        version("spring_cloud_kubernetes_version", "3.1.0")
+
+        version("spring_cloud_resilience4j_version", "3.1.0")
+        version("okhttp_version", "4.12.0")
+        version("feign_okhttp_version", "13.2.1")
+
+        version("slf4j_version", "2.0.12")
+        version("log4j_version", "2.23.1")
+
+        version("micrometer_version", "1.12.4")
+
+        version("jakarta_annotations_version", "2.1.1")
+        version("jakarta_servlet_version", "6.0.0")
+        version("jakarta_validation_version", "3.0.2")
+
+        version("junit_jupiter_version", "5.10.2")
+        version("junit_platform_version", "1.10.2")
+        version("mockito_version", "5.11.0")
+
+        version("spotbugs_version", "4.8.3")
+        version("sonarqube_version", "3.3")
+
+        version("mybatis_version", "3.5.15")
+        version("mybatis_starter_version", "3.0.3")
+        version("hikariCP_version", "5.1.0")
+        version("mysql_jdbc_version", "8.3.0")
+        version("maria_r2dbc_version", "1.2.0")
+
+        version("redisson_version", "3.27.2")
+        version("hazelcast_version", "5.3.6")
+        version("hazelcast_kubernetes_version", "2.2.3")
+        version("hazelcast_mybatis_version", "1.3.0")
+        version("caffeine_version", "3.1.8")
+
+        version("jackson_version", "2.17.0")
+        version("lombok_version", "1.18.32")
+        version("joda_time_version", "2.12.7")
+        version("commons_lang3_version", "3.14.0")
+        version("commons_pool2_version", "2.12.0")
+        version("guava_version", "33.1.0-jre")
+        version("hutool_version", "5.8.26")
+        version("h2_version", "2.2.224")
+
+        // spring boot
+        library("spring-boot-starter-parent", "org.springframework.boot", "spring-boot-starter-parent").versionRef("spring_boot_version")
+        library("spring-boot-configuration-processor", "org.springframework.boot", "spring-boot-configuration-processor").versionRef("spring_boot_version")
+
+        // spring boot web
+        library("spring-boot-starter-web", "org.springframework.boot", "spring-boot-starter-web").versionRef("spring_boot_version")
+        library("spring-boot-starter-tomcat", "org.springframework.boot", "spring-boot-starter-tomcat").versionRef("spring_boot_version")
+        library("spring-boot-starter-validation", "org.springframework.boot", "spring-boot-starter-validation").versionRef("spring_boot_version")
+        library("spring-boot-starter-actuator", "org.springframework.boot", "spring-boot-starter-actuator").versionRef("spring_boot_version")
+        library("spring-boot-starter-websocket", "org.springframework.boot", "spring-boot-starter-websocket").versionRef("spring_boot_version")
+        bundle("spring-boot-webserver", ["spring-boot-starter-web", "spring-boot-starter-tomcat", "spring-boot-starter-actuator", "spring-boot-starter-actuator"])
+
+        // spring cloud
+        library("spring-cloud-dependencies", "org.springframework.cloud", "spring-cloud-dependencies").versionRef("spring_cloud_dependencies_version")
+        library("spring-cloud-starter-loadbalancer", "org.springframework.cloud", "spring-cloud-starter-loadbalancer").versionRef("spring_cloud_version")
+
+        // spring cloud feign
+        library("okhttp", "com.squareup.okhttp3", "okhttp").versionRef("okhttp_version")
+        library("feign-core", "io.github.openfeign", "feign-core").versionRef("feign_okhttp_version")
+        library("feign-okhttp", "io.github.openfeign", "feign-okhttp").versionRef("feign_okhttp_version")
+        library("spring-cloud-starter-openfeign", "org.springframework.cloud", "spring-cloud-starter-openfeign").versionRef("spring_cloud_version")
+        library("spring-cloud-starter-circuitbreaker-resilience4j", "org.springframework.cloud", "spring-cloud-starter-circuitbreaker-resilience4j").versionRef("spring_cloud_resilience4j_version")
+        bundle("spring-cloud-openfeign", ["okhttp", "feign-core", "feign-okhttp", "spring-cloud-starter-openfeign", "spring-cloud-starter-circuitbreaker-resilience4j"])
+
+        // log
+        library("spring-boot-starter-log4j2", "org.springframework.boot", "spring-boot-starter-log4j2").versionRef("spring_boot_version")
+        library("slf4j-api", "org.slf4j", "slf4j-api").versionRef("slf4j_version")
+        library("slf4j-ext", "org.slf4j", "slf4j-ext").versionRef("slf4j_version")
+        library("jul-to-slf4j", "org.slf4j", "jul-to-slf4j").versionRef("slf4j_version")
+        library("log4j-over-slf4j", "org.slf4j", "log4j-over-slf4j").versionRef("slf4j_version")
+        library("jcl-over-slf4j", "org.slf4j", "jcl-over-slf4j").versionRef("slf4j_version")
+        library("log4j-slf4j2-impl", "org.apache.logging.log4j", "log4j-slf4j2-impl").versionRef("log4j_version")
+        library("log4j-core", "org.apache.logging.log4j", "log4j-core").versionRef("log4j_version")
+        library("log4j-jul", "org.apache.logging.log4j", "log4j-jul").versionRef("log4j_version")
+        bundle("spring-boot-starter-slf4j-log4j2", ["spring-boot-starter-log4j2", "slf4j-api", "slf4j-ext", "jul-to-slf4j", "log4j-over-slf4j", "jcl-over-slf4j", "log4j-slf4j2-impl", "log4j-jul", "log4j-core"])
+
+        // metrics
+        library("micrometer-core", "io.micrometer", "micrometer-core").versionRef("micrometer_version")
+        library("micrometer-registry-prometheus", "io.micrometer", "micrometer-registry-prometheus").versionRef("micrometer_version")
+        bundle("micrometer", ["micrometer-core", "micrometer-registry-prometheus"])
+
+        // test
+        library("spring-boot-starter-test", "org.springframework.boot", "spring-boot-starter-test").versionRef("spring_boot_version")
+        library("junit-bom", "org.junit", "junit-bom").versionRef("junit_jupiter_version")
+        library("junit-jupiter-api", "org.junit.jupiter", "junit-jupiter-api").versionRef("junit_jupiter_version")
+        library("junit-jupiter-engine", "org.junit.jupiter", "junit-jupiter-engine").versionRef("junit_jupiter_version")
+        library("junit-platform-runner", "org.junit.platform", "junit-platform-runner").versionRef("junit_platform_version")
+        library("junit-platform-commons", "org.junit.platform", "junit-platform-commons").versionRef("junit_platform_version")
+        library("junit-platform-engine", "org.junit.platform", "junit-platform-engine").versionRef("junit_platform_version")
+        library("junit-platform-launcher", "org.junit.platform", "junit-platform-launcher").versionRef("junit_platform_version")
+        library("junit-platform-suite-api", "org.junit.platform", "junit-platform-suite-api").versionRef("junit_platform_version")
+        library("mockito-core", "org.mockito", "mockito-core").versionRef("mockito_version")
+        library("spotbugs-annotations", "com.github.spotbugs", "spotbugs-annotations").versionRef("spotbugs_version")
+
+        // cache
+        library("spring-boot-starter-data-redis", "org.springframework.boot", "spring-boot-starter-data-redis").versionRef("spring_boot_version")
+        library("caffeine", "com.github.ben-manes.caffeine", "caffeine").versionRef("caffeine_version")
+        library("hazelcast", "com.hazelcast", "hazelcast").versionRef("hazelcast_version")
+        library("hazelcast-kubernetes", "com.hazelcast", "hazelcast-kubernetes").versionRef("hazelcast_kubernetes_version")
+        library("redisson-spring-boot-starter", "org.redisson", "redisson-spring-boot-starter").versionRef("redisson_version")
+
+        // db
+        library("mybatis-spring-boot-starter", "org.mybatis.spring.boot", "mybatis-spring-boot-starter").versionRef("mybatis_starter_version")
+        library("mysql-connector-j", "com.mysql", "mysql-connector-j").versionRef("mysql_jdbc_version")
+        library("hikari", "com.zaxxer", "HikariCP").versionRef("hikariCP_version")
+        library("h2", "com.h2database", "h2").versionRef("h2_version")
+
+        // jakarta
+        library("validation-api", "jakarta.validation", "jakarta.validation-api").versionRef("jakarta_validation_version")
+
+        // jackson
+        library("jackson-annotations", "com.fasterxml.jackson.core", "jackson-annotations").versionRef("jackson_version")
+        library("jackson-databind", "com.fasterxml.jackson.core", "jackson-databind").versionRef("jackson_version")
+        library("jackson-datatype-jsr310", "com.fasterxml.jackson.datatype", "jackson-datatype-jsr310").versionRef("jackson_version")
+        library("jackson-module-parameter-names", "com.fasterxml.jackson.module", "jackson-module-parameter-names").versionRef("jackson_version")
+        bundle("jackson", ["jackson-databind", "jackson-datatype-jsr310", "jackson-module-parameter-names"])
+
+        // util
+        library("lombok", "org.projectlombok", "lombok").versionRef("lombok_version")
+        library("joda-time", "joda-time", "joda-time").versionRef("joda_time_version")
+        library("guava", "com.google.guava", "guava").versionRef("guava_version")
+        library("hutool", "cn.hutool", "hutool-all").versionRef("hutool_version")
+        library("commons-pool2", "org.apache.commons", "commons-pool2").versionRef("commons_pool2_version")
+
+//        library("knife4j", "com.github.xiaoymin", "knife4j-spring-boot-starter").version("3.0.3")
+//        library("knife4j-openapi3", "com.github.xiaoymin", "knife4j-openapi3-jakarta-spring-boot-starter").version("4.1.0")
+        // plugin
+        plugin("sonarqube", "org.sonarqube").versionRef("sonarqube_version")
+        plugin("springboot", "org.springframework.boot").versionRef("spring_boot_version")
+    }
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = this.rootProject.group
+            artifactId = "newnoa-library"
+            version = this.rootProject.version
+            from components.versionCatalog
+        }
+    }
+
+    repositories {
+        maven {
+            name = "newnoa-library"
+            url = "http://nexus3.newnoa.com/repository/newnoa-hosted/"
+            // url = "http://nexus3.newnoa.com/repository/maven-snapshots/"
+            allowInsecureProtocol true
+            credentials {
+                username = "admin"
+                password = "neowei"
+            }
+        }
+    }
+}
