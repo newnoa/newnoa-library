@@ -5,7 +5,7 @@ plugins {
 }
 
 group "com.newnoa"
-version "0.0.2"
+version "0.0.17"
 
 repositories {
     maven {
@@ -31,33 +31,48 @@ catalog {
         version("okhttp_version", "4.12.0")
         version("feign_okhttp_version", "13.2.1")
 
+        version("netty_version", "4.1.108.Final")
+        version("grpc_version", "1.62.2")
+
         version("slf4j_version", "2.0.12")
         version("log4j_version", "2.23.1")
+        version("logback_version", "1.5.3")
 
         version("micrometer_version", "1.12.4")
+
+        version("arthas_version", "3.7.2")
 
         version("jakarta_annotations_version", "2.1.1")
         version("jakarta_servlet_version", "6.0.0")
         version("jakarta_validation_version", "3.0.2")
+        version("jakarta_transaction_version", "2.0.1")
+        version("jakarta_activation_version", "2.1.3")
+        version("jakarta_xml_bind_version", "4.0.2")
+        version("jakarta_ws_rs_version", "3.1.0")
 
         version("junit_jupiter_version", "5.10.2")
         version("junit_platform_version", "1.10.2")
         version("mockito_version", "5.11.0")
-
-        version("spotbugs_version", "4.8.3")
-        version("sonarqube_version", "3.3")
 
         version("mybatis_version", "3.5.15")
         version("mybatis_starter_version", "3.0.3")
         version("hikariCP_version", "5.1.0")
         version("mysql_jdbc_version", "8.3.0")
         version("maria_r2dbc_version", "1.2.0")
+        version("h2_version", "2.2.224")
+        version("mongodb_driver_version", "5.0.0")
+        version("neo4j_version", "5.18.1")
+
+
+        version("rocketmq_starter_version", "2.3.0")
 
         version("redisson_version", "3.27.2")
         version("hazelcast_version", "5.3.6")
         version("hazelcast_kubernetes_version", "2.2.3")
         version("hazelcast_mybatis_version", "1.3.0")
         version("caffeine_version", "3.1.8")
+
+        version("bytebuddy_version", "1.14.13")
 
         version("jackson_version", "2.17.0")
         version("lombok_version", "1.18.32")
@@ -66,7 +81,37 @@ catalog {
         version("commons_pool2_version", "2.12.0")
         version("guava_version", "33.1.0-jre")
         version("hutool_version", "5.8.26")
-        version("h2_version", "2.2.224")
+
+        version("quarkus_version", "3.9.2")
+
+        version("spotbugs_annotations_version", "4.8.3")
+        // https://plugins.gradle.org/plugin/com.github.spotbugs-base
+        version("spotbugs_version", "6.0.9")
+        // https://plugins.gradle.org/plugin/org.sonarqube
+        version("sonarqube_version", "5.0.0.4638")
+        // https://plugins.gradle.org/plugin/com.diffplug.spotless
+        version("spotless_version", "6.25.0")
+        // https://plugins.gradle.org/plugin/com.ly.smart-doc
+        version("smart_doc_version", "3.0.3")
+        // https://plugins.gradle.org/plugin/org.owasp.dependencycheck
+        version("dependency_check_version", "9.1.0")
+        // https://graalvm.github.io/native-build-tools/latest/gradle-plugin.html
+        version("graalvm_native_version", "0.10.1")
+        // https://plugins.gradle.org/plugin/com.google.protobuf
+        version("protobuf_version", "0.9.4")
+        //https://plugins.gradle.org/plugin/com.qqviaja.gradle.MybatisGenerator
+        version("mybatis_generator_version", "2.5")
+        // https://plugins.gradle.org/plugin/io.swagger.core.v3.swagger-gradle-plugin
+        version("swagger_version", "2.2.21")
+        // https://plugins.gradle.org/plugin/org.springdoc.openapi-gradle-plugin
+        version("springdoc_version", "1.8.0")
+        // https://plugins.gradle.org/plugin/com.gorylenko.gradle-git-properties
+        version("git_properties_version", "2.4.1")
+        // https://plugins.gradle.org/plugin/io.spring.dependency-management
+        version("dependency_management_version", "1.1.4")
+
+        version("r2dbc_mariadb_version", "1.2.0")
+        version("r2dbc_h2_version", "1.0.0.RELEASE")
 
         // spring boot
         library("spring-boot-starter-parent", "org.springframework.boot", "spring-boot-starter-parent").versionRef("spring_boot_version")
@@ -74,11 +119,14 @@ catalog {
 
         // spring boot web
         library("spring-boot-starter-web", "org.springframework.boot", "spring-boot-starter-web").versionRef("spring_boot_version")
+        library("spring-boot-starter-webflux", "org.springframework.boot", "spring-boot-starter-webflux").versionRef("spring_boot_version")
         library("spring-boot-starter-tomcat", "org.springframework.boot", "spring-boot-starter-tomcat").versionRef("spring_boot_version")
         library("spring-boot-starter-validation", "org.springframework.boot", "spring-boot-starter-validation").versionRef("spring_boot_version")
         library("spring-boot-starter-actuator", "org.springframework.boot", "spring-boot-starter-actuator").versionRef("spring_boot_version")
         library("spring-boot-starter-websocket", "org.springframework.boot", "spring-boot-starter-websocket").versionRef("spring_boot_version")
-        bundle("spring-boot-webserver", ["spring-boot-starter-web", "spring-boot-starter-tomcat", "spring-boot-starter-actuator", "spring-boot-starter-actuator"])
+        bundle("spring-boot-web-server", ["spring-boot-starter-web", "spring-boot-starter-tomcat", "spring-boot-starter-validation", "spring-boot-starter-actuator"])
+        bundle("spring-boot-webflux-server", ["spring-boot-starter-webflux", "spring-boot-starter-tomcat", "spring-boot-starter-validation", "spring-boot-starter-actuator"])
+        bundle("spring-boot-web-websocket", ["spring-boot-starter-websocket", "spring-boot-starter-tomcat", "spring-boot-starter-validation", "spring-boot-starter-actuator"])
 
         // spring cloud
         library("spring-cloud-dependencies", "org.springframework.cloud", "spring-cloud-dependencies").versionRef("spring_cloud_dependencies_version")
@@ -92,22 +140,55 @@ catalog {
         library("spring-cloud-starter-circuitbreaker-resilience4j", "org.springframework.cloud", "spring-cloud-starter-circuitbreaker-resilience4j").versionRef("spring_cloud_resilience4j_version")
         bundle("spring-cloud-openfeign", ["okhttp", "feign-core", "feign-okhttp", "spring-cloud-starter-openfeign", "spring-cloud-starter-circuitbreaker-resilience4j"])
 
+
+        // netty
+        library("spring-boot-starter-reactor-netty", "org.springframework.boot", "spring-boot-starter-reactor-netty").versionRef("spring_boot_version")
+        library("netty-all", "io.netty", "netty-all").versionRef("netty_version")
+        library("netty-handler-proxy", "io.netty", "netty-handler-proxy").versionRef("netty_version")
+        library("netty-transport-native-unix-common", "io.netty", "netty-transport-native-unix-common").versionRef("netty_version")
+
+        // grpc
+        library("grpc-all", "io.grpc", "grpc-all").versionRef("grpc_version")
+        library("grpc-stub", "io.grpc", "grpc-stub").versionRef("grpc_version")
+        library("grpc-protobuf", "io.grpc", "grpc-protobuf").versionRef("grpc_version")
+        library("grpc-netty-shaded", "io.grpc", "grpc-netty-shaded").versionRef("grpc_version")
+        library("grpc-netty", "io.grpc", "grpc-netty").versionRef("grpc_version")
+        bundle("grpc", ["grpc-stub", "grpc-protobuf", "grpc-netty-shaded", "netty-handler-proxy", "netty-transport-native-unix-common"])
+
         // log
         library("spring-boot-starter-log4j2", "org.springframework.boot", "spring-boot-starter-log4j2").versionRef("spring_boot_version")
+        library("spring-boot-starter-logging", "org.springframework.boot", "spring-boot-starter-logging").versionRef("spring_boot_version")
+
         library("slf4j-api", "org.slf4j", "slf4j-api").versionRef("slf4j_version")
         library("slf4j-ext", "org.slf4j", "slf4j-ext").versionRef("slf4j_version")
         library("jul-to-slf4j", "org.slf4j", "jul-to-slf4j").versionRef("slf4j_version")
         library("log4j-over-slf4j", "org.slf4j", "log4j-over-slf4j").versionRef("slf4j_version")
         library("jcl-over-slf4j", "org.slf4j", "jcl-over-slf4j").versionRef("slf4j_version")
+
+        library("log4j-api", "org.apache.logging.log4j", "log4j-api").versionRef("log4j_version")
+        library("log4j-to-slf4j", "org.apache.logging.log4j", "log4j-to-slf4j").versionRef("log4j_version")
         library("log4j-slf4j2-impl", "org.apache.logging.log4j", "log4j-slf4j2-impl").versionRef("log4j_version")
         library("log4j-core", "org.apache.logging.log4j", "log4j-core").versionRef("log4j_version")
         library("log4j-jul", "org.apache.logging.log4j", "log4j-jul").versionRef("log4j_version")
-        bundle("spring-boot-starter-slf4j-log4j2", ["spring-boot-starter-log4j2", "slf4j-api", "slf4j-ext", "jul-to-slf4j", "log4j-over-slf4j", "jcl-over-slf4j", "log4j-slf4j2-impl", "log4j-jul", "log4j-core"])
+        library("log4j-layout-template-json", "org.apache.logging.log4j", "log4j-layout-template-json").versionRef("log4j_version")
+
+        library("logback-classic", "ch.qos.logback", "logback-classic").versionRef("logback_version")
+        library("logback-core", "ch.qos.logback", "logback-core").versionRef("logback_version")
+
+        bundle("spring-boot-starter-slf4j-logback", ["spring-boot-starter-logging",
+                                                     "slf4j-api", "slf4j-ext", "jul-to-slf4j", "log4j-over-slf4j", "jcl-over-slf4j", "log4j-to-slf4j",
+                                                     "log4j-api", "logback-core", "logback-classic"])
+        bundle("spring-boot-starter-slf4j-log4j2", ["spring-boot-starter-log4j2",
+                                                    "slf4j-api", "slf4j-ext", "jul-to-slf4j", "log4j-over-slf4j", "jcl-over-slf4j",
+                                                    "log4j-api", "log4j-slf4j2-impl", "log4j-jul", "log4j-core"])
 
         // metrics
         library("micrometer-core", "io.micrometer", "micrometer-core").versionRef("micrometer_version")
         library("micrometer-registry-prometheus", "io.micrometer", "micrometer-registry-prometheus").versionRef("micrometer_version")
         bundle("micrometer", ["micrometer-core", "micrometer-registry-prometheus"])
+
+        // diagnosis
+        library("arthas", "com.taobao.arthas", "arthas-spring-boot-starter").versionRef("arthas_version")
 
         // test
         library("spring-boot-starter-test", "org.springframework.boot", "spring-boot-starter-test").versionRef("spring_boot_version")
@@ -120,30 +201,74 @@ catalog {
         library("junit-platform-launcher", "org.junit.platform", "junit-platform-launcher").versionRef("junit_platform_version")
         library("junit-platform-suite-api", "org.junit.platform", "junit-platform-suite-api").versionRef("junit_platform_version")
         library("mockito-core", "org.mockito", "mockito-core").versionRef("mockito_version")
-        library("spotbugs-annotations", "com.github.spotbugs", "spotbugs-annotations").versionRef("spotbugs_version")
+        library("spotbugs-annotations", "com.github.spotbugs", "spotbugs-annotations").versionRef("spotbugs_annotations_version")
+
+        // rocketmq
+        library("rocketmq-spring-boot-starter", "org.apache.rocketmq", "rocketmq-spring-boot-starter").versionRef("rocketmq_starter_version")
 
         // cache
-        library("spring-boot-starter-data-redis", "org.springframework.boot", "spring-boot-starter-data-redis").versionRef("spring_boot_version")
+        library("spring-boot-starter-cache", "org.springframework.boot", "spring-boot-starter-cache").versionRef("spring_boot_version")
         library("caffeine", "com.github.ben-manes.caffeine", "caffeine").versionRef("caffeine_version")
         library("hazelcast", "com.hazelcast", "hazelcast").versionRef("hazelcast_version")
         library("hazelcast-kubernetes", "com.hazelcast", "hazelcast-kubernetes").versionRef("hazelcast_kubernetes_version")
+
+        // redis
+        library("spring-boot-starter-data-redis-reactive", "org.springframework.boot", "spring-boot-starter-data-redis-reactive").versionRef("spring_boot_version")
+        library("spring-boot-starter-data-redis", "org.springframework.boot", "spring-boot-starter-data-redis").versionRef("spring_boot_version")
         library("redisson-spring-boot-starter", "org.redisson", "redisson-spring-boot-starter").versionRef("redisson_version")
 
-        // db
+        // relation db
         library("mybatis-spring-boot-starter", "org.mybatis.spring.boot", "mybatis-spring-boot-starter").versionRef("mybatis_starter_version")
+        library("spring-boot-starter-jdbc", "org.springframework.boot", "spring-boot-starter-jdbc").versionRef("spring_boot_version")
         library("mysql-connector-j", "com.mysql", "mysql-connector-j").versionRef("mysql_jdbc_version")
         library("hikari", "com.zaxxer", "HikariCP").versionRef("hikariCP_version")
         library("h2", "com.h2database", "h2").versionRef("h2_version")
 
+        library("spring-boot-starter-data-r2dbc", "org.springframework.boot", "spring-boot-starter-data-r2dbc").versionRef("spring_boot_version")
+        library("r2dbc-h2", "io.r2dbc", "r2dbc-h2") version("r2dbc_h2_version")
+        library("r2dbc_mariadb", "org.mariadb", "r2dbc-mariadb").versionRef("r2dbc_mariadb_version")
+
+        // couchbase
+        library("spring-boot-starter-data-couchbase", "org.springframework.boot", "spring-boot-starter-data-couchbase").versionRef("spring_boot_version")
+        library("spring-boot-starter-data-couchbase-reactive", "org.springframework.boot", "spring-boot-starter-data-couchbase-reactive").versionRef("spring_boot_version")
+
+        // mongodb
+        library("spring-boot-starter-data-mongodb-reactive", "org.springframework.boot", "spring-boot-starter-data-mongodb-reactive").versionRef("spring_boot_version")
+        library("spring-boot-starter-data-mongodb", "org.springframework.boot", "spring-boot-starter-data-mongodb").versionRef("spring_boot_version")
+        library("mongodb-driver-sync", "org.mongodb", "mongodb-driver-sync").versionRef("mongodb_driver_version")
+        library("mongodb-driver-async", "org.mongodb", "mongodb-driver-async").version("3.12.14")
+
+        // neo4j
+        library("spring-boot-starter-data-neo4j", "org.springframework.boot", "spring-boot-starter-data-neo4j").versionRef("spring_boot_version")
+        library("neo4j", "org.neo4j", "neo4j").versionRef("neo4j_version")
+
+        // rest
+        library("spring-boot-starter-data-rest", "org.springframework.boot", "spring-boot-starter-data-rest").versionRef("spring_boot_version")
+
         // jakarta
-        library("validation-api", "jakarta.validation", "jakarta.validation-api").versionRef("jakarta_validation_version")
+        library("jakarta-validation-api", "jakarta.validation", "jakarta.validation-api").versionRef("jakarta_validation_version")
+        library("jakarta-servlet-api", "jakarta.servlet", "jakarta.servlet-api").versionRef("jakarta_servlet_version")
+        library("jakarta-annotation-api", "jakarta.annotation", "jakarta.annotation-api").versionRef("jakarta_annotations_version")
+        library("jakarta-transaction-api", "jakarta.transaction", "jakarta.transaction-api").versionRef("jakarta_transaction_version")
+        library("jakarta-activation-api", "jakarta.activation", "jakarta.activation-api").versionRef("jakarta_activation_version")
+        library("jakarta-xml-bind-api", "jakarta.xml.bind", "jakarta.xml.bind-api").versionRef("jakarta_xml_bind_version")
+        library("jakarta-ws-rs-api", "jakarta.ws.rs", "jakarta.ws.rs-api").versionRef("jakarta_ws_rs_version")
+        bundle("jakarta", ["jakarta-validation-api", "jakarta-servlet-api", "jakarta-annotation-api", "jakarta-transaction-api",
+                           "jakarta-activation-api", "jakarta-xml-bind-api", "jakarta-ws-rs-api"])
 
         // jackson
+        library("jackson-bom", "com.fasterxml.jackson", "jackson-bom").versionRef("jackson_version")
+        library("jackson-core", "com.fasterxml.jackson.core", "jackson-core").versionRef("jackson_version")
         library("jackson-annotations", "com.fasterxml.jackson.core", "jackson-annotations").versionRef("jackson_version")
         library("jackson-databind", "com.fasterxml.jackson.core", "jackson-databind").versionRef("jackson_version")
         library("jackson-datatype-jsr310", "com.fasterxml.jackson.datatype", "jackson-datatype-jsr310").versionRef("jackson_version")
+        library("jackson-datatype-jdk8", "com.fasterxml.jackson.datatype", "jackson-datatype-jdk8").versionRef("jackson_version")
         library("jackson-module-parameter-names", "com.fasterxml.jackson.module", "jackson-module-parameter-names").versionRef("jackson_version")
-        bundle("jackson", ["jackson-databind", "jackson-datatype-jsr310", "jackson-module-parameter-names"])
+        bundle("jackson", ["jackson-annotations", "jackson-core", "jackson-databind", "jackson-datatype-jdk8", "jackson-datatype-jsr310", "jackson-module-parameter-names"])
+
+        // bytebuddy
+        library("byte-buddy", "net.bytebuddy", "byte-buddy").versionRef("bytebuddy_version")
+        library("byte-buddy-agent", "net.bytebuddy", "byte-buddy-agent").versionRef("bytebuddy_version")
 
         // util
         library("lombok", "org.projectlombok", "lombok").versionRef("lombok_version")
@@ -152,28 +277,55 @@ catalog {
         library("hutool", "cn.hutool", "hutool-all").versionRef("hutool_version")
         library("commons-pool2", "org.apache.commons", "commons-pool2").versionRef("commons_pool2_version")
 
-//        library("knife4j", "com.github.xiaoymin", "knife4j-spring-boot-starter").version("3.0.3")
-//        library("knife4j-openapi3", "com.github.xiaoymin", "knife4j-openapi3-jakarta-spring-boot-starter").version("4.1.0")
+
+        // quarkus
+        library("quarkus-bom", "io.quarkus.platform", "quarkus-bom").versionRef("quarkus_version")
+        library("quarkus-junit5", "io.quarkus", "quarkus-junit5").versionRef("quarkus_version")
+        library("quarkus-config-yaml", "io.quarkus", "quarkus-config-yaml").versionRef("quarkus_version")
+        library("quarkus-arc", "io.quarkus", "quarkus-arc").versionRef("quarkus_version")
+        library("quarkus-rest", "io.quarkus", "quarkus-rest").versionRef("quarkus_version")
+        library("quarkus-rest-jackson", "io.quarkus", "quarkus-rest-jackson").versionRef("quarkus_version")
+        library("quarkus-resteasy", "io.quarkus", "quarkus-resteasy").versionRef("quarkus_version")
+        library("quarkus-resteasy-jackson", "io.quarkus", "quarkus-resteasy-jackson").versionRef("quarkus_version")
+        library("quarkus-grpc", "io.quarkus", "quarkus-grpc").versionRef("quarkus_version")
+
+        library("quarkus-infinispan-client", "io.quarkus", "quarkus-infinispan-client").versionRef("quarkus_version")
+        library("quarkus-mongodb-client", "io.quarkus", "quarkus-mongodb-client").versionRef("quarkus_version")
+        library("quarkus-redis-cache", "io.quarkus", "quarkus-redis-cache").versionRef("quarkus_version")
+        library("rest-assured", "io.rest-assured", "rest-assured").version("5.4.0")
+
         // plugin
+        plugin("dependency-management", "io.spring.dependency-management").versionRef("dependency_management_version")
         plugin("sonarqube", "org.sonarqube").versionRef("sonarqube_version")
         plugin("springboot", "org.springframework.boot").versionRef("spring_boot_version")
+        plugin("graalvm-build-native", "org.graalvm.buildtools.native").versionRef("graalvm_native_version")
+        plugin("spotless", "com.diffplug.spotless").versionRef("spotless_version")
+        plugin("smart-doc", "com.ly.smart-doc").versionRef("smart_doc_version")
+        plugin("spotbugs", "com.github.spotbugs-base") versionRef("spotbugs_version")
+        plugin("dependency-check", "org.owasp.dependencycheck").versionRef("dependency_check_version")
+        plugin("protobuf", "com.google.protobuf").versionRef("protobuf_version")
+        plugin("mybatis-generator", "com.qqviaja.gradle.MybatisGenerator").versionRef("mybatis_generator_version")
+        plugin("swagger", "io.swagger.core.v3.swagger-gradle-plugin").versionRef("swagger_version")
+        plugin("springdoc", "org.springdoc.openapi-gradle-plugin").versionRef("springdoc_version")
+        plugin("git-properties", "com.gorylenko.gradle-git-properties").versionRef("git_properties_version")
+        plugin("quarkus", "io.quarkus").versionRef("quarkus_version")
     }
 }
 
 publishing {
     publications {
         maven(MavenPublication) {
-            groupId = this.rootProject.group
-            artifactId = "newnoa-library"
-            version = this.rootProject.version
+            groupId = rootProject.group
+            artifactId = rootProject.name
+            version = rootProject.version
             from components.versionCatalog
         }
     }
 
     repositories {
         maven {
-            name = "newnoa-library"
-            url = "http://nexus3.newnoa.com/repository/newnoa-hosted/"
+            name = rootProject.name
+            url = "http://nexus.newnoa.com/repository/newnoa-hosted/"
             // url = "http://nexus3.newnoa.com/repository/maven-snapshots/"
             allowInsecureProtocol true
             credentials {
