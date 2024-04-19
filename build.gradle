@@ -5,7 +5,7 @@ plugins {
 }
 
 group "com.newnoa"
-version "0.0.17"
+version "0.0.35"
 
 repositories {
     maven {
@@ -37,12 +37,17 @@ catalog {
         version("slf4j_version", "2.0.12")
         version("log4j_version", "2.23.1")
         version("logback_version", "1.5.3")
+        version("logstash_logback_version", "7.4")
+        version("opentelemetry_logback_version", "2.3.0-alpha")
+
+        version("opentelemetry_version", "1.31.0")
 
         version("micrometer_version", "1.12.4")
 
         version("arthas_version", "3.7.2")
 
         version("jakarta_annotations_version", "2.1.1")
+        version("jakarta_websocket_version", "2.1.1")
         version("jakarta_servlet_version", "6.0.0")
         version("jakarta_validation_version", "3.0.2")
         version("jakarta_transaction_version", "2.0.1")
@@ -53,6 +58,7 @@ catalog {
         version("junit_jupiter_version", "5.10.2")
         version("junit_platform_version", "1.10.2")
         version("mockito_version", "5.11.0")
+        version("hamcrest_version", "2.2")
 
         version("mybatis_version", "3.5.15")
         version("mybatis_starter_version", "3.0.3")
@@ -61,8 +67,7 @@ catalog {
         version("maria_r2dbc_version", "1.2.0")
         version("h2_version", "2.2.224")
         version("mongodb_driver_version", "5.0.0")
-        version("neo4j_version", "5.18.1")
-
+        version("neo4j_version", "5.19.0")
 
         version("rocketmq_starter_version", "2.3.0")
 
@@ -79,8 +84,12 @@ catalog {
         version("joda_time_version", "2.12.7")
         version("commons_lang3_version", "3.14.0")
         version("commons_pool2_version", "2.12.0")
+        version("commons_text_version", "1.11.0")
         version("guava_version", "33.1.0-jre")
         version("hutool_version", "5.8.26")
+        version("jwt_version", "0.12.5")
+        version("oshi_core_version", "6.6.0")
+        version("jna_version", "5.14.0")
 
         version("quarkus_version", "3.9.2")
 
@@ -115,18 +124,22 @@ catalog {
 
         // spring boot
         library("spring-boot-starter-parent", "org.springframework.boot", "spring-boot-starter-parent").versionRef("spring_boot_version")
+        library("spring-boot-dependencies", "org.springframework.boot", "spring-boot-dependencies").versionRef("spring_boot_version")
         library("spring-boot-configuration-processor", "org.springframework.boot", "spring-boot-configuration-processor").versionRef("spring_boot_version")
 
         // spring boot web
         library("spring-boot-starter-web", "org.springframework.boot", "spring-boot-starter-web").versionRef("spring_boot_version")
         library("spring-boot-starter-webflux", "org.springframework.boot", "spring-boot-starter-webflux").versionRef("spring_boot_version")
         library("spring-boot-starter-tomcat", "org.springframework.boot", "spring-boot-starter-tomcat").versionRef("spring_boot_version")
+        library("spring-boot-starter-undertow", "org.springframework.boot", "spring-boot-starter-undertow").versionRef("spring_boot_version")
         library("spring-boot-starter-validation", "org.springframework.boot", "spring-boot-starter-validation").versionRef("spring_boot_version")
         library("spring-boot-starter-actuator", "org.springframework.boot", "spring-boot-starter-actuator").versionRef("spring_boot_version")
         library("spring-boot-starter-websocket", "org.springframework.boot", "spring-boot-starter-websocket").versionRef("spring_boot_version")
-        bundle("spring-boot-web-server", ["spring-boot-starter-web", "spring-boot-starter-tomcat", "spring-boot-starter-validation", "spring-boot-starter-actuator"])
-        bundle("spring-boot-webflux-server", ["spring-boot-starter-webflux", "spring-boot-starter-tomcat", "spring-boot-starter-validation", "spring-boot-starter-actuator"])
-        bundle("spring-boot-web-websocket", ["spring-boot-starter-websocket", "spring-boot-starter-tomcat", "spring-boot-starter-validation", "spring-boot-starter-actuator"])
+        bundle("spring-boot-tomcat-server", ["spring-boot-starter-web", "spring-boot-starter-tomcat", "spring-boot-starter-validation", "spring-boot-starter-actuator"])
+        bundle("spring-boot-undertow-server", ["spring-boot-starter-web", "spring-boot-starter-undertow", "spring-boot-starter-validation", "spring-boot-starter-actuator"])
+        bundle("spring-boot-tomcat-websocket", ["spring-boot-starter-websocket", "spring-boot-starter-tomcat", "spring-boot-starter-validation", "spring-boot-starter-actuator"])
+        bundle("spring-boot-undertow-websocket", ["spring-boot-starter-websocket", "spring-boot-starter-undertow", "spring-boot-starter-validation", "spring-boot-starter-actuator"])
+        bundle("spring-boot-webflux-server", ["spring-boot-starter-webflux", "spring-boot-starter-validation", "spring-boot-starter-actuator"])
 
         // spring cloud
         library("spring-cloud-dependencies", "org.springframework.cloud", "spring-cloud-dependencies").versionRef("spring_cloud_dependencies_version")
@@ -139,7 +152,6 @@ catalog {
         library("spring-cloud-starter-openfeign", "org.springframework.cloud", "spring-cloud-starter-openfeign").versionRef("spring_cloud_version")
         library("spring-cloud-starter-circuitbreaker-resilience4j", "org.springframework.cloud", "spring-cloud-starter-circuitbreaker-resilience4j").versionRef("spring_cloud_resilience4j_version")
         bundle("spring-cloud-openfeign", ["okhttp", "feign-core", "feign-okhttp", "spring-cloud-starter-openfeign", "spring-cloud-starter-circuitbreaker-resilience4j"])
-
 
         // netty
         library("spring-boot-starter-reactor-netty", "org.springframework.boot", "spring-boot-starter-reactor-netty").versionRef("spring_boot_version")
@@ -174,13 +186,19 @@ catalog {
 
         library("logback-classic", "ch.qos.logback", "logback-classic").versionRef("logback_version")
         library("logback-core", "ch.qos.logback", "logback-core").versionRef("logback_version")
+        library("logstash-logback-encoder", "net.logstash.logback", "logstash-logback-encoder").versionRef("logstash_logback_version")
 
         bundle("spring-boot-starter-slf4j-logback", ["spring-boot-starter-logging",
-                                                     "slf4j-api", "slf4j-ext", "jul-to-slf4j", "log4j-over-slf4j", "jcl-over-slf4j", "log4j-to-slf4j",
-                                                     "log4j-api", "logback-core", "logback-classic"])
+                                                     "slf4j-api", "slf4j-ext", "jul-to-slf4j", "log4j-over-slf4j", "jcl-over-slf4j", "log4j-to-slf4j", "log4j-api",
+                                                     "logback-core", "logback-classic", "logstash-logback-encoder"])
         bundle("spring-boot-starter-slf4j-log4j2", ["spring-boot-starter-log4j2",
                                                     "slf4j-api", "slf4j-ext", "jul-to-slf4j", "log4j-over-slf4j", "jcl-over-slf4j",
                                                     "log4j-api", "log4j-slf4j2-impl", "log4j-jul", "log4j-core"])
+
+        // tracing
+        library("opentelemetry-exporter-otlp", "io.opentelemetry", "opentelemetry-exporter-otlp").versionRef("opentelemetry_version")
+        library("opentelemetry-sdk", "io.opentelemetry", "opentelemetry-sdk").versionRef("opentelemetry_version")
+        library("opentelemetry-logback-mdc", "io.opentelemetry.instrumentation", "opentelemetry-logback-mdc-1.0").versionRef("opentelemetry_logback_version")
 
         // metrics
         library("micrometer-core", "io.micrometer", "micrometer-core").versionRef("micrometer_version")
@@ -197,10 +215,12 @@ catalog {
         library("junit-jupiter-engine", "org.junit.jupiter", "junit-jupiter-engine").versionRef("junit_jupiter_version")
         library("junit-platform-runner", "org.junit.platform", "junit-platform-runner").versionRef("junit_platform_version")
         library("junit-platform-commons", "org.junit.platform", "junit-platform-commons").versionRef("junit_platform_version")
+        library("junit-platform-console", "org.junit.platform", "junit-platform-console").versionRef("junit_platform_version")
         library("junit-platform-engine", "org.junit.platform", "junit-platform-engine").versionRef("junit_platform_version")
         library("junit-platform-launcher", "org.junit.platform", "junit-platform-launcher").versionRef("junit_platform_version")
         library("junit-platform-suite-api", "org.junit.platform", "junit-platform-suite-api").versionRef("junit_platform_version")
         library("mockito-core", "org.mockito", "mockito-core").versionRef("mockito_version")
+        library("hamcrest", "org.hamcrest", "hamcrest").versionRef("hamcrest_version")
         library("spotbugs-annotations", "com.github.spotbugs", "spotbugs-annotations").versionRef("spotbugs_annotations_version")
 
         // rocketmq
@@ -248,13 +268,15 @@ catalog {
         // jakarta
         library("jakarta-validation-api", "jakarta.validation", "jakarta.validation-api").versionRef("jakarta_validation_version")
         library("jakarta-servlet-api", "jakarta.servlet", "jakarta.servlet-api").versionRef("jakarta_servlet_version")
+        library("jakarta-websocket-api", "jakarta.websocket", "jakarta.websocket-api").versionRef("jakarta_websocket_version")
         library("jakarta-annotation-api", "jakarta.annotation", "jakarta.annotation-api").versionRef("jakarta_annotations_version")
         library("jakarta-transaction-api", "jakarta.transaction", "jakarta.transaction-api").versionRef("jakarta_transaction_version")
         library("jakarta-activation-api", "jakarta.activation", "jakarta.activation-api").versionRef("jakarta_activation_version")
         library("jakarta-xml-bind-api", "jakarta.xml.bind", "jakarta.xml.bind-api").versionRef("jakarta_xml_bind_version")
         library("jakarta-ws-rs-api", "jakarta.ws.rs", "jakarta.ws.rs-api").versionRef("jakarta_ws_rs_version")
-        bundle("jakarta", ["jakarta-validation-api", "jakarta-servlet-api", "jakarta-annotation-api", "jakarta-transaction-api",
-                           "jakarta-activation-api", "jakarta-xml-bind-api", "jakarta-ws-rs-api"])
+        bundle("jakarta", ["jakarta-validation-api", "jakarta-servlet-api", "jakarta-websocket-api",
+                           "jakarta-annotation-api", "jakarta-transaction-api", "jakarta-activation-api",
+                           "jakarta-xml-bind-api", "jakarta-ws-rs-api"])
 
         // jackson
         library("jackson-bom", "com.fasterxml.jackson", "jackson-bom").versionRef("jackson_version")
@@ -263,6 +285,7 @@ catalog {
         library("jackson-databind", "com.fasterxml.jackson.core", "jackson-databind").versionRef("jackson_version")
         library("jackson-datatype-jsr310", "com.fasterxml.jackson.datatype", "jackson-datatype-jsr310").versionRef("jackson_version")
         library("jackson-datatype-jdk8", "com.fasterxml.jackson.datatype", "jackson-datatype-jdk8").versionRef("jackson_version")
+        library("jackson-datatype-guava", "com.fasterxml.jackson.datatype", "jackson-datatype-guava").versionRef("jackson_version")
         library("jackson-module-parameter-names", "com.fasterxml.jackson.module", "jackson-module-parameter-names").versionRef("jackson_version")
         bundle("jackson", ["jackson-annotations", "jackson-core", "jackson-databind", "jackson-datatype-jdk8", "jackson-datatype-jsr310", "jackson-module-parameter-names"])
 
@@ -276,7 +299,18 @@ catalog {
         library("guava", "com.google.guava", "guava").versionRef("guava_version")
         library("hutool", "cn.hutool", "hutool-all").versionRef("hutool_version")
         library("commons-pool2", "org.apache.commons", "commons-pool2").versionRef("commons_pool2_version")
+        library("commons-lang3", "org.apache.commons", "commons-lang3").versionRef("commons_lang3_version")
+        library("commons-text", "org.apache.commons", "commons-text").versionRef("commons_text_version")
+        library("oshi-core", "com.github.oshi", "oshi-core").versionRef("oshi-core_version")
 
+        library("jna", "net.java.dev.jna", "jna").versionRef("jna_version")
+        library("jna-platform", "net.java.dev.jna", "jna-platform").versionRef("jna_version")
+        bundle("jna", ["jna", "jna-platform"])
+
+        library("jjwt-api", "io.jsonwebtoken", "jjwt-api").versionRef("jwt_version")
+        library("jjwt-impl", "io.jsonwebtoken", "jjwt-impl").versionRef("jwt_version")
+        library("jjwt-jackson", "io.jsonwebtoken", "jjwt-jackson").versionRef("jwt_version")
+        bundle("jwt", ["jjwt-api", "jjwt-impl", "jjwt-jackson"])
 
         // quarkus
         library("quarkus-bom", "io.quarkus.platform", "quarkus-bom").versionRef("quarkus_version")
